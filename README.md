@@ -1,38 +1,26 @@
-# Installing Discourse on Ubuntu and DigitalOcean
-Copyright 2013 by Christopher Baus <christopher@baus.net>. Licensed under GPL 2.0
+# Installing Discourse on Ubuntu and EC2
+Original copyright 2013 by Christopher Baus <christopher@baus.net>. Licensed under GPL 2.0
+Updated version copyright 2013 by Lee Dohm <lee.dohm@gmail.com>
 
-Discourse is [web discussion forum software](http://discourse.org) by Jeff Atwood (et al.). Considering the 
-state of forum software, and Jeff's previous success with StackOverflow, I'm confident it is going to be a success. 
-With that said it is still in a very early state, and if you are not an expert on Linux and Ruby on Rails administration, 
-getting a Discourse site up and running can be a daunting task. 
+Discourse is [web discussion forum software](http://discourse.org) by Jeff Atwood (et al.). Considering the state of forum software, and Jeff's previous success with StackOverflow, I'm confident it is going to be a success. With that said it is still in a very early state, and if you are not an expert on Linux and Ruby on Rails administration, getting a Discourse site up and running can be a daunting task. 
 
-Hopefully the document will be useful for someone who has some Linux administration experience and wants to run and
-administrate their own Discourse server. I am erring on the side of verbosity.
+Hopefully the document will be useful for someone who has some Linux administration experience and wants to run and administrate their own Discourse server. I am erring on the side of verbosity.
 
+## Create EC2 Instance with Ubuntu 12.04 LTS x64
 
-### Create DigitalOcean VPS with Ubuntu 12.10x64
+While these instructions should work fine on most Ubuntu installations, I have explicitly tested them on Amazon EC2.
 
-While these instructions should work fine on most Ubuntu installations, I have explicitly tested them on DigitalOcean. 
-DigitalOcearn currently offers low cost VPS hosting, but I can not vouch for their reliability. 
+I decided on Ubuntu 12.04 LTS x64 since it is the flavor of Ubuntu that the [main Discourse installation](http://meta.discourse.org) is run upon.
 
-I decided on Ubuntu 12.10 x64 since it is the most recent Ubuntu release with the most up to date packages. If you 
-concerned about the long term stability of your systems, you may want to consider Ubuntu 12.04 LTS which has 
-gaurenteed support until 2017, but the installation instructions are a bit different do to availability of certain packages.
+Before creating your EC2 instance, you should register the domain name you want to use for your forum. I'm using discoursetest.org for this instance, and forum.discoursetest.org as the FQDN.  
 
-Before creating your DigitalOcean instance, you should register the domain name you want to use for your forum. I'm using 
-discoursetest.org for this instance, and forum.discoursetest.org as the FQDN.  
+After creating your account at Amazon AWS, launch an instance *with at least 1GB of RAM* [1], and select the Ubuntu OS image you want to use. I set the Hostname to forum.discoursetest.org. 
 
-After creating your account at DigitalOcean, create a Droplet *with at least 1GB of RAM* [1], and select the Ubuntu  
-OS image you want to use. I set the Hostname to forum.discoursetest.org. 
+You will need to allocate an Elastic IP address and associate it with your new EC2 instance after you've started it.  You should go to your domain registrar and set the DNS records to point to your new IP.  I've set both the * and @ records to point to the instance's IP. This allows the root domain and all sub-domains to resolve to instance's IP address. 
 
-DigitalOcean will email the IP address and root password to you. You should go to your domain registrar and set the 
-DNS records to point to your new IP. I've set both the * and @ records to point to the VPS IP. This allows the root 
-domain and all sub-domains to resolve to VPS instance's IP address. 
+[1] A minimum of 1GB of RAM is required to compile assets for production.  At the time of this writing, an `m1.small` instance is the smallest instance that has 1GB of RAM.
 
-[1] A minimum of 1GB of RAM is required to compile assets for production.
-
-
-### Login to your server
+## Login to your server
 
 I will use discoursetest.org when a domain name is required in the installation. You should replace 
 discoursetest.org with your own domain name. If you are using OS X or Linux, start a terminal and ssh to 
@@ -45,7 +33,7 @@ your new server. Windows users should consider installing [Putty](http://putty.o
 # Enter the root password provided by DigitalOcean
 ```
 
-### Change your root password
+## Change your root password
 
 Since your password has been emailed to you in clear text, you should immediately change your password for security reasons.
 
@@ -54,7 +42,7 @@ root@host:~# passwd
 # # Enter your new password
 ```
 
-### Create a user account
+## Create a user account
 
 It is poor practice to admin your system from the root account. Create an administrative account. I'm going to 
 call the new user "admin."
@@ -66,7 +54,7 @@ Adding the user to the sudo group will allow the user to perform tasks as root u
 ~# adduser admin
 ~# adduser admin sudo
 ```
-### Login using the admin account
+## Login using the admin account
 
 ```bash
 ~# logout
@@ -76,7 +64,7 @@ $ ssh admin@discoursetest.org
 
 Todo: should consider removing root SSH access at this point
 
-### Use apt-get to install core system dependencies
+## Use apt-get to install core system dependencies
 
 The apt-get command is used to add packages to Ubuntu (and all Debian based Linux distributions). DigitalOcean, like many VPS's, ships
 with a limited Ubuntu configuration, so you will have to install many of the software the dependencies yourself.
@@ -99,7 +87,7 @@ At the next prompt just enter your domain name. In my test case this is discours
 TODO: This installs redis 2.4. Discourse explicitly states that they require Redis 2.6, but this requires installing
 from source.
 
-### Editing configuration files
+## Editing configuration files
 
 At various points in the installation procedure, you will need to edit configuration files with a text editor.
 Vi is installed by default and is the de facto standard editor used by admins, so I use vi for any editing commands,
@@ -109,7 +97,7 @@ but you may want to consider installing the editor of your choice. I like emacs,
 $ sudo apt-get install emacs
 ```
 
-### Set the host name
+## Set the host name
 
 DigitalOcean's provisioning procedure doesn't correctly set the hostname when the instance is created, 
 which is inconvient since they know your hostname at the point the instance is created. I'd recommend 
@@ -127,14 +115,14 @@ The first line of my /etc/hosts file looks like:
 You should replace discoursetest.org with your own domain name. 
 
 
-### Install the Bundler app which installs Rails dependencies
+## Install the Bundler app which installs Rails dependencies
 
 ```bash
 $ sudo gem install bundler
 $ sudo gem install therubyracer -v '0.11.3'
 ```
 
-### Configure Postgres user account
+## Configure Postgres user account
 
 Discourse uses the Postgres database to store forum data. The configuration procedure is similar to MySQL, but 
 I am a Postgres newbie, so if you have improvements to this aspect of the installation procedure, please let me know.
@@ -147,7 +135,7 @@ to login to Postgres as a user with lower privledges.
 $ sudo -u postgres createuser admin -s -P
 ```
 
-### Pull and configure the latest version of the Discourse app
+## Pull and configure the latest version of the Discourse app
 
 Now we are ready install the actual Discourse application. This will pull a copy of the Discourse app from my own branch. 
 The advantage of using this branch is that it has been tested with these instructions, but it may fall behind the master
@@ -161,7 +149,7 @@ $ cd discourse
 $ bundle install
 ```
 
-### Set Discourse application settings
+## Set Discourse application settings
 Now you have set the Discourse application settings. The configuration files are in a directory called "config"
 There are sample configuration files now included in the master branch, so you need to copy these files and
 modify them with your own changes.
@@ -229,7 +217,7 @@ production:
 I'm not a fan of entering the DB password as clear text in the database.yml file. If you have a better solution
 to this, let me know. 
 
-### Deploy the db and start the server
+## Deploy the db and start the server
 
 Now you should be ready to deploy the database and start the server.
 
@@ -248,7 +236,7 @@ I tested the configuration by going to http://discoursetest.org:3000/
 
 ## Installing the production environment
 
-## WARNING: very preliminary instructions follows
+**WARNING: very preliminary instructions follows**
 
 ### Setup the www-data account
 ```bash
@@ -307,7 +295,8 @@ The default values are in: app/models/site_setting.rb
 * Set the notification_email. It is the from address used in emails from the system. I set it to info@discoursetest.org.
 * Set force_hostname to your domain name. I set it to discoursetest.org. This is used when generating URLs in emails.
 
-### TODO
+## TODO
+
 * Add more information about email configuration and start sidekiq when testing development installation. Should the admin account be set when testing the development server?
 * Correct host name in url in emails
 * Setup social network login (Is it possible to disable this feature?)
