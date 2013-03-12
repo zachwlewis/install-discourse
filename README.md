@@ -255,8 +255,16 @@ $ sudo rm /etc/nginx/sites-enabled/default
 $ sudo service nginx start
 ```
 
-### Deploy Discourse app to /var/www
+### Create Production Database
+
+```bash
+$ export RAILS_ENV=production
+$ rake db:create db:migrate db:seed_fu
 ```
+
+### Deploy Discourse app to /var/www
+
+```bash
 $ vi config/initializers/secret_token.rb
 $ export RAILS_ENV=production
 $ rake assets:precompile
@@ -265,10 +273,12 @@ $ sudo -u www-data mkdir /var/www/discourse/tmp/sockets
 ```
 
 ### Start Thin as a daemon listening on domain sockets
+
 ```bash
 $ cd /var/www/discourse
 $ sudo -u www-data thin start -e production -s4 --socket /var/www/discourse/tmp/sockets/thin.sock
 ```
+
 ### Start Sidekiq
 
 ```bash
@@ -289,6 +299,7 @@ u.save
 Todo: add script to create the admin account
 
 ### Edit site settings
+
 The default values are in: app/models/site_setting.rb
 * Logon to site with the admin account
 * Go to the site settings page: http://discoursetest.org/admin/site_settings
