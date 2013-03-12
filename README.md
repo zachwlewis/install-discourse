@@ -35,6 +35,7 @@ Adding the user to the sudo group will allow the user to perform tasks as root u
 $ sudo adduser admin
 $ sudo adduser admin sudo
 ```
+
 ## Log in Using the Admin Account
 
 ```bash
