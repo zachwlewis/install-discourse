@@ -1,7 +1,7 @@
 # Installing Discourse on Ubuntu and EC2
 Original copyright 2013 by Christopher Baus <christopher@baus.net>. Licensed under GPL 2.0
 
-Updated version copyright 2013 by Lee Dohm <lee.dohm@gmail.com>
+Updated version copyright 2013 by Lee Dohm <lee@liftedstudios.com>
 
 Discourse is [web discussion forum software](http://discourse.org) by Jeff Atwood (et al.). Considering the state of forum software, and Jeff's previous success with StackOverflow, I'm confident it is going to be a success. With that said it is still in a very early state, and if you are not an expert on Linux and Ruby on Rails administration, getting a Discourse site up and running can be a daunting task. 
 
