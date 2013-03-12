@@ -120,8 +120,12 @@ Now we are ready install the actual Discourse application. This will pull a copy
 # Pull the latest version from github.
 $ git clone https://github.com/lee-dohm/discourse.git
 $ cd discourse
-# Now install the application dependencies using bundle
-$ bundle install
+```
+
+Create an `.rvmrc` file for Discourse:
+
+```bash
+$ echo "rvm 1.9.3@discourse" > .rvmrc
 ```
 
 ## Set Discourse application settings
