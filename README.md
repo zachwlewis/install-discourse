@@ -21,11 +21,11 @@ You will need to allocate an Elastic IP address and associate it with your new E
 
 [1] A minimum of 1GB of RAM is required to compile assets for production.  At the time of this writing, an `m1.small` instance is the smallest instance that has 1GB of RAM.
 
-## Login to your server
+## Log in to Your Server
 
 I will use discoursetest.org when a domain name is required in the installation. You should replace discoursetest.org with your own domain name. If you are using OS X or Linux, start a terminal and ssh to your new server. Windows users should consider installing [Putty](http://putty.org/) to access your new server.
 
-## Create a user account
+## Create a User Account
 
 While the Amazon EC2 Ubuntu images all have a non-root `ubuntu` admin user, I chose to create a more personal admin user account. For the purposes of this document, I'm going to call the new user `admin`.
 
@@ -35,7 +35,7 @@ Adding the user to the sudo group will allow the user to perform tasks as root u
 $ sudo adduser admin
 $ sudo adduser admin sudo
 ```
-## Login using the admin account
+## Log in Using the Admin Account
 
 ```bash
 $ logout
@@ -43,7 +43,7 @@ $ logout
 $ ssh admin@discoursetest.org
 ```
 
-## Use apt-get to install core system dependencies
+## Use `apt-get` to Install Core System Dependencies
 
 The apt-get command is used to add packages to Ubuntu (and all Debian based Linux distributions). The Amazon EC2 Ubuntu images come with a limited configuration, so you will have to install many of the software the dependencies yourself.
 
@@ -58,11 +58,11 @@ During the installation, you will be prompted for Postfix configuration informat
 
 At the next prompt just enter your domain name. In my test case this is discoursetest.org.
 
-## Editing configuration files
+## Edit Configuration Files
 
 At various points in the installation procedure, you will need to edit configuration files with a text editor. `vi` is installed by default and is the de facto standard editor used by admins (although it appears that `nano` is configured as the default editor for many uses in the Ubuntu image), so I use `vi` for any editing commands, but you may want to consider installing the editor of your choice.
 
-## Set the host name
+## Set the Host Name
 
 EC2's provisioning procedure doesn't assume your instance will require a hostname when it is created. I'd recommend editing /etc/hosts to correctly contain your hostname.
 
@@ -77,7 +77,7 @@ The first line of my /etc/hosts file looks like:
 
 You should replace discoursetest.org with your own domain name. 
 
-## Configure Postgres user account
+## Configure Postgres User Account
 
 Discourse uses the Postgres database to store forum data. The configuration procedure is similar to MySQL, but I am a Postgres newbie, so if you have improvements to this aspect of the installation procedure, please let me know.
 
@@ -112,7 +112,7 @@ $ rvm gemset create discourse
 
 *Note*: Some people are using Ruby v2.0 for their installations to good effect, but I have not tested version 2 with these instructions.
 
-## Pull and configure the latest version of the Discourse app
+## Pull and Configure the Discourse Application
 
 Now we are ready install the actual Discourse application. This will pull a copy of the Discourse app from my own branch. The advantage of using this branch is that it has been tested with these instructions, but it may fall behind the master which is rapidly changing. 
 
@@ -128,10 +128,9 @@ Create an `.rvmrc` file for Discourse:
 $ echo "rvm 1.9.3@discourse" > .rvmrc
 ```
 
-## Set Discourse application settings
-Now you have set the Discourse application settings. The configuration files are in a directory called "config"
-There are sample configuration files now included in the master branch, so you need to copy these files and
-modify them with your own changes.
+## Set Discourse Application Settings
+
+Now you have set the Discourse application settings. The configuration files are in a directory called `config`.  There are sample configuration files now included, so you need to copy these files and modify them with your own changes.
 
 ```
 $ cd ~/discourse/config
@@ -142,18 +141,17 @@ $ cp ./redis.yml.sample ./redis.yml
 Now you need to edit the configuration files and apply your own settings. 
 
 
-Start by editing the database configuration file which should be now located at ~/discourse/config/database.yml
+Start by editing the database configuration file which should be now located at `~/discourse/config/database.yml`.
 
 ```bash
 $ vi ~/discourse/config/database.yml
 ```
 
-Edit the file to add your Postgres username and password to each configuration in the file. Also add host: localhost
-to the production configuration because the production DB will also be run on the localhost in this configuration.
+Edit the file to add your Postgres username and password to each configuration in the file. Also add `localhost` to the production configuration because the production DB will also be run on the localhost in this configuration.
 
 When you are done the file should look similar to:
 
-```
+```yaml
 development:
   adapter: postgresql
   database: discourse_development
@@ -183,7 +181,7 @@ test:
 # we need it to be in production so it minifies assets
 production:
   adapter: postgresql
-  database: discourse_development
+  database: discourse
   username: admin
   password: <your_postgres_password>
   host: localhost
@@ -193,15 +191,15 @@ production:
     - production.localhost
 ```
 
-I'm not a fan of entering the DB password as clear text in the database.yml file. If you have a better solution
-to this, let me know. 
+I'm not a fan of entering the DB password as clear text in the database.yml file. If you have a better solution to this, let me know. 
 
-## Deploy the db and start the server
+## Deploy the Database and Start the Server
 
 Now you should be ready to deploy the database and start the server.
 
 This will start the development environment on port 3000.
-```
+
+```bash
 $ cd ~/discourse
 # Set Rails configuration
 $ export RAILS_ENV=development
@@ -213,11 +211,12 @@ $ thin start
 
 I tested the configuration by going to http://discoursetest.org:3000/
 
-## Installing the production environment
+## Installing the Production Environment
 
 **WARNING: very preliminary instructions follows**
 
-### Setup the www-data account
+### Setup the `www-data` Account
+
 ```bash
 $ sudo mkdir /var/www
 $ sudo chgrp www-data /var/www
@@ -235,7 +234,8 @@ $ sudo service nginx start
 ```
 
 ### Deploy Discourse app to /var/www
-```
+
+```bash
 $ vi config/initializers/secret_token.rb
 $ export RAILS_ENV=production
 $ rake assets:precompile
@@ -244,6 +244,7 @@ $ sudo -u www-data mkdir /var/www/discourse/tmp/sockets
 ```
 
 ### Start Thin as a daemon listening on domain sockets
+
 ```bash
 $ cd /var/www/discourse
 $ sudo -u www-data thin start -e production -s4 --socket /var/www/discourse/tmp/sockets/thin.sock
@@ -267,7 +268,8 @@ u.save
 ```
 Todo: add script to create the admin account
 
-### Edit site settings
+### Edit Site Settings
+
 The default values are in: app/models/site_setting.rb
 * Logon to site with the admin account
 * Go to the site settings page: http://discoursetest.org/admin/site_settings
