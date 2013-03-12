@@ -64,7 +64,7 @@ At various points in the installation procedure, you will need to edit configura
 
 ## Set the host name
 
-EC2's provisioning procedure doesn't assume your instance will require a hostname when the it is created. I'd recommend editing /etc/hosts to correctly contain your hostname.
+EC2's provisioning procedure doesn't assume your instance will require a hostname when it is created. I'd recommend editing /etc/hosts to correctly contain your hostname.
 
 ```bash
 $ vi /etc/hosts
