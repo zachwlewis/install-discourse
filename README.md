@@ -233,7 +233,6 @@ $ sudo rm /etc/nginx/sites-enabled/default
 $ sudo service nginx start
 ```
 
-<<<<<<< HEAD
 ### Create Production Database
 
 ```bash
@@ -241,8 +240,6 @@ $ export RAILS_ENV=production
 $ rake db:create db:migrate db:seed_fu
 ```
 
-=======
->>>>>>> ae46ad7005db30cb3a90e85bc1a04a25cd484484
 ### Deploy Discourse app to /var/www
 
 ```bash
@@ -279,11 +276,7 @@ u.save
 ```
 Todo: add script to create the admin account
 
-<<<<<<< HEAD
-### Edit site settings
-=======
 ### Edit Site Settings
->>>>>>> ae46ad7005db30cb3a90e85bc1a04a25cd484484
 
 The default values are in: app/models/site_setting.rb
 * Logon to site with the admin account
