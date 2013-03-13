@@ -270,12 +270,13 @@ $ sudo -u www-data sidekiq -e production -d -l /var/www/discourse/log/sidekiq.lo
 * Now make that account the admin:
 
 ```bash
-sudo -u www-data rails c     
+sudo -u www-data rails c   
 u = User.first    
 u.admin = true    
 u.save  
 ```
-Todo: add script to create the admin account
+
+*Todo: add script to create the admin account*
 
 ### Edit Site Settings
 
