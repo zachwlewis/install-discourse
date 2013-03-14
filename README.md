@@ -270,27 +270,25 @@ $ sudo -u www-data sidekiq -e production -d -l /var/www/discourse/log/sidekiq.lo
 * Now make that account the admin:
 
 ```bash
-sudo -u www-data rails c     
-u = User.first    
-u.admin = true    
-u.save  
+# Start the Rails console
+$ sudo -u www-data rails c
 ```
-Todo: add script to create the admin account
 
-### Edit Site Settings
+```ruby
+# Take the first (only) user account and mark it as admin
+u = User.first
+u.admin = true
+u.save
 
-The default values are in: app/models/site_setting.rb
-* Logon to site with the admin account
-* Go to the site settings page: http://discoursetest.org/admin/site_settings
-* Set the notification_email. It is the from address used in emails from the system. I set it to info@discoursetest.org.
-* Set force_hostname to your domain name. I set it to discoursetest.org. This is used when generating URLs in emails.
+# Create a confirmation for their email address, if necessary
+token = user.email_tokens.create(email: user.email)
+EmailToken.confirm(token.token)
+```
 
 ## TODO
 
-* Add more information about email configuration and start sidekiq when testing development installation. Should the admin account be set when testing the development server?
-* Correct host name in url in emails
-* Setup social network login (Is it possible to disable this feature?)
-* Add Sam Saffron's Ruby GC tunings
-* Add thin and sidekiq as init scripts. I find this cleaner than using bluepill
-* Create chef script based on the installation procedure
+* Convert to using `foreman` for production startup and process monitoring
+* Update `thin` configuration for `foreman`
+* Add script to create admin Discourse account
+* Add scripts to automate a lot of this process
 * Lots of info on server configuration here: http://news.ycombinator.com/item?id=5316093
