@@ -118,6 +118,9 @@ $ rvm gemset create discourse
 Now we are ready install the actual Discourse application. This will pull a copy of the Discourse app from my own branch. The advantage of using this branch is that it has been tested with these instructions, but it may fall behind the master which is rapidly changing. 
 
 ```bash
+# I prefer to keep source code in its own subdirectory
+$ mkdir source
+$ cd source
 # Pull the latest version from github.
 $ git clone https://github.com/lee-dohm/discourse.git
 $ cd discourse
@@ -134,7 +137,7 @@ $ echo "rvm 1.9.3@discourse" > .rvmrc
 Now you have set the Discourse application settings. The configuration files are in a directory called `config`.  There are sample configuration files now included, so you need to copy these files and modify them with your own changes.
 
 ```
-$ cd ~/discourse/config
+$ cd ~/source/discourse/config
 $ cp ./database.yml.sample ./database.yml
 $ cp ./redis.yml.sample ./redis.yml
 ```
@@ -145,7 +148,7 @@ Now you need to edit the configuration files and apply your own settings.
 Start by editing the database configuration file which should be now located at `~/discourse/config/database.yml`.
 
 ```bash
-$ vi ~/discourse/config/database.yml
+$ vi ~/source/discourse/config/database.yml
 ```
 
 Edit the file to add your Postgres username and password to each configuration in the file. Also add `localhost` to the production configuration because the production DB will also be run on the localhost in this configuration.
@@ -201,7 +204,7 @@ Now you should be ready to deploy the database and start the server.
 This will start the development environment on port 3000.
 
 ```bash
-$ cd ~/discourse
+$ cd ~/source/discourse
 # Set Rails configuration
 $ export RAILS_ENV=development
 $ rake db:create
