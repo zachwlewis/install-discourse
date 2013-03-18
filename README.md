@@ -214,14 +214,25 @@ I tested the configuration by going to http://discoursetest.org:3000/
 
 ## Installing the Production Environment
 
-**WARNING: very preliminary instructions follows**
+I'm a Unix and Rails newb (which is why I'm doing this the hard way) so I had a few false starts even before getting things up off the ground.  I currently have the following stack:
+
+* `nginx` as load balancer
+* `thin` as web server
+* `sidekiq` as worker
+* `clockwork` as scheduler
+* Using init.d for `nginx` and `thin`
+* Using Upstart for `sidekiq` and `clockwork`
+
+You may ask why I'm using two different systems for process maintenance and I will simply refer you to the aforementioned newbness.  I pieced all of this together from various guides and so things look a little patchy because of it.  But it works!
+
+### Sources and Links
 
 I used the following sources to get my production installation working:
 
 * [Using Foreman for Production Services](http://michaelvanrooijen.com/articles/2011/06/08-managing-and-monitoring-your-ruby-application-with-foreman-and-upstart/)
 * [Setting up Thin](http://stackoverflow.com/questions/3230404/rvm-and-thin-root-vs-local-user) -- *also very useful information on creating RVM wrappers since the `www-data` user won't have Ruby in the PATH*
 
-### Setup the `www-data` Account
+### Set Up the `www-data` Account
 
 ```bash
 $ sudo mkdir /var/www
@@ -229,7 +240,7 @@ $ sudo chgrp www-data /var/www
 $ sudo chmod g+w /var/www
 ```
 
-### Configure nginx
+### Configure `nginx`
 
 ```bash
 $ cd ~/discourse/
@@ -246,7 +257,7 @@ $ export RAILS_ENV=production
 $ rake db:create db:migrate db:seed_fu
 ```
 
-### Deploy Discourse app to /var/www
+### Deploy Discourse App to `/var/www`
 
 ```bash
 $ vi config/initializers/secret_token.rb
@@ -256,20 +267,20 @@ $ sudo -u www-data cp -r ~/discourse/ /var/www
 $ sudo -u www-data mkdir /var/www/discourse/tmp/sockets
 ```
 
-### Start Thin as a daemon listening on domain sockets
+### Start `thin` As a Daemon Listening on Domain Sockets
 
 ```bash
 $ cd /var/www/discourse
 $ sudo -u www-data thin start -e production -s4 --socket /var/www/discourse/tmp/sockets/thin.sock
 ```
 
-### Start Sidekiq
+### Start `sidekiq`
 
 ```bash
 $ sudo -u www-data sidekiq -e production -d -l /var/www/discourse/log/sidekiq.log
 ```
 
-### Create Discourse admin account
+### Create Discourse Admin Account
 
 * Logon to site and create account using the application UI
 * Now make that account the admin:
