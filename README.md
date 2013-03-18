@@ -216,6 +216,11 @@ I tested the configuration by going to http://discoursetest.org:3000/
 
 **WARNING: very preliminary instructions follows**
 
+I used the following sources to get my production installation working:
+
+* [Using Foreman for Production Services](http://michaelvanrooijen.com/articles/2011/06/08-managing-and-monitoring-your-ruby-application-with-foreman-and-upstart/)
+* [Setting up Thin](http://stackoverflow.com/questions/3230404/rvm-and-thin-root-vs-local-user) -- *also very useful information on creating RVM wrappers since the `www-data` user won't have Ruby in the PATH*
+
 ### Setup the `www-data` Account
 
 ```bash
