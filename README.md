@@ -290,6 +290,34 @@ token = user.email_tokens.create(email: user.email)
 EmailToken.confirm(token.token)
 ```
 
+## Upgrading Versions in Production
+
+### Stop the Servers
+
+```bash
+$ sudo stop discourse
+$ sudo service nginx stop
+$ sudo service thin stop
+```
+
+### Pull Down Latest Code and Update Application
+
+```bash
+$ cd ~/source/discourse
+$ git pull
+$ export RAILS_ENV=production
+$ rake db:migrate db:seed_fu assets:precompile
+$ sudo -u www-data cp -r ~/source/discourse /var/www
+```
+
+### Start the Servers
+
+```bash
+$ sudo service thin start
+$ sudo service nginx start
+$ sudo start discourse
+```
+
 ## TODO
 
 * Convert to using `foreman` for production startup and process monitoring
