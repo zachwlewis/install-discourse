@@ -331,8 +331,7 @@ $ sudo start discourse
 
 ## TODO
 
-* Convert to using `foreman` for production startup and process monitoring
-* Update `thin` configuration for `foreman`
+* Convert `thin` to use Upstart for process monitoring
+* Convert `nginx` to use Upstart for process monitoring?
 * Add script to create admin Discourse account
 * Add scripts to automate a lot of this process
-* Lots of info on server configuration here: http://news.ycombinator.com/item?id=5316093
