@@ -144,8 +144,7 @@ $ cp ./redis.yml.sample ./redis.yml
 
 Now you need to edit the configuration files and apply your own settings. 
 
-
-Start by editing the database configuration file which should be now located at `~/discourse/config/database.yml`.
+Start by editing the database configuration file which should be now located at `~/source/discourse/config/database.yml`.
 
 ```bash
 $ vi ~/source/discourse/config/database.yml
@@ -246,7 +245,7 @@ $ sudo chmod g+w /var/www
 ### Configure `nginx`
 
 ```bash
-$ cd ~/discourse/
+$ cd ~/source/discourse/
 $ sudo cp config/nginx.sample.conf /etc/nginx/sites-available/discourse.conf
 $ sudo ln -s /etc/nginx/sites-available/discourse.conf /etc/nginx/sites-enabled/discourse.conf
 $ sudo rm /etc/nginx/sites-enabled/default
@@ -266,7 +265,7 @@ $ rake db:create db:migrate db:seed_fu
 $ vi config/initializers/secret_token.rb
 $ export RAILS_ENV=production
 $ rake assets:precompile
-$ sudo -u www-data cp -r ~/discourse/ /var/www
+$ sudo -u www-data cp -r ~/source/discourse/ /var/www
 $ sudo -u www-data mkdir /var/www/discourse/tmp/sockets
 ```
 
