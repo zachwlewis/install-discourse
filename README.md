@@ -269,17 +269,88 @@ $ sudo -u www-data cp -r ~/source/discourse/ /var/www
 $ sudo -u www-data mkdir /var/www/discourse/tmp/sockets
 ```
 
-### Start `thin` As a Daemon Listening on Domain Sockets
+### Configure `thin`
+
+I set up the `rvm` wrapper for Ruby v1.9.3, but you can configure it for whatever version you decide to use.
 
 ```bash
 $ cd /var/www/discourse
-$ sudo -u www-data thin start -e production -s4 --socket /var/www/discourse/tmp/sockets/thin.sock
+$ sudo thin install
+$ sudo thin config -C /etc/thin/discourse.yml -c /var/www/discourse --servers 4 -e production
+$ rvm wrapper 1.9.3@discourse bootup thin
 ```
 
-### Start `sidekiq`
+Then you'll need to edit the `thin` init script:
 
 ```bash
-$ sudo -u www-data sidekiq -e production -d -l /var/www/discourse/log/sidekiq.log
+$ sudo vi /etc/init.d/thin
+```
+
+Change the line starting with `DAEMON=` to:
+
+```text
+DAEMON=/usr/local/rvm/bin/bootup_thin
+```
+
+Start the service:
+
+```bash
+$ sudo service thin start
+```
+
+### Use `foreman` to help configure `sidekiq` and `clockwork`
+
+As of this writing, Discourse comes with a sample `Procfile` for `foreman`.  On the other hand, `foreman` is not part of the `Gemfile`, so you will need to install it manually:
+
+```bash
+$ gem install foreman
+```
+
+Once that is complete then you can use `foreman` to generate the Upstart configuration:
+
+```bash
+$ sudo foreman export upstart /etc/init -a discourse -u www-data
+```
+
+This will create a number of files in your `/etc/init` directory that all start with the name `discourse`.  Since we are using `init.d` to handle `thin`, we should remove the configuration for `thin` in Upstart:
+
+```bash
+$ sudo rm /etc/init/discourse-web*
+```
+
+Then we need to create `rvm` wrappers for `sidekiq` and `clockwork` so that the `www-data` user can execute these tools:
+
+```bash
+$ rvm wrapper 1.9.3@discourse bootup sidekiq
+$ rvm wrapper 1.9.3@discourse bootup clockwork
+```
+
+Finally, all we need to do is update the `discourse-clockwork-1.conf` and `discourse-sidekiq-1.conf` files to use the `rvm` wrapper for launching the tools.
+
+#### `discourse-clockwork-1.conf`
+
+```text
+start on starting discourse-clockwork
+stop on stopping discourse-clockwork
+respawn
+
+exec su - www-data -c 'cd /var/www/discourse; export PORT=5200; /usr/local/rvm/bin/bootup_clockwork config/clock.rb >> /var/log/discourse/clockwork-1.log 2>&1'
+```
+
+#### `discourse-sidekiq-1.conf`
+
+```text
+start on starting discourse-sidekiq
+stop on stopping discourse-sidekiq
+respawn
+
+exec su - www-data -c 'cd /var/www/discourse; export PORT=5100; /usr/local/rvm/bin/bootup_sidekiq -e production >> /var/log/discourse/sidekiq-1.log 2>&1'
+```
+
+#### Start the Services
+
+```bash
+$ sudo start discourse
 ```
 
 ### Create Discourse Admin Account
