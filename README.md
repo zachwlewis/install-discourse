@@ -279,12 +279,12 @@ $ sudo -u www-data mkdir /var/www/discourse/tmp/sockets
 
 ### Configure `thin`
 
-I set up the `rvm` wrapper for Ruby v1.9.3, but you can configure it for whatever version you decide to use.
+I set up the `rvm` wrapper for Ruby v1.9.3, but you can configure it for whatever version you decide to use.  *Note*: `rvmsudo` executes a command as `root` but with access to the current `rvm` environment.
 
 ```bash
 $ cd /var/www/discourse
-$ sudo thin install
-$ sudo thin config -C /etc/thin/discourse.yml -c /var/www/discourse --servers 4 -e production
+$ rvmsudo thin install
+$ rvmsudo thin config -C /etc/thin/discourse.yml -c /var/www/discourse --servers 4 -e production
 $ rvm wrapper 1.9.3@discourse bootup thin
 ```
 
@@ -323,7 +323,7 @@ $ gem install foreman
 Once that is complete then you can use `foreman` to generate the Upstart configuration:
 
 ```bash
-$ sudo foreman export upstart /etc/init -a discourse -u www-data
+$ rvmsudo foreman export upstart /etc/init -a discourse -u www-data
 ```
 
 This will create a number of files in your `/etc/init` directory that all start with the name `discourse`.  Since we are using `init.d` to handle `thin`, we should remove the configuration for `thin` in Upstart:
