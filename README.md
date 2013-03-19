@@ -288,6 +288,12 @@ $ sudo thin config -C /etc/thin/discourse.yml -c /var/www/discourse --servers 4 
 $ rvm wrapper 1.9.3@discourse bootup thin
 ```
 
+After generating the configuration, you'll need to edit the `/etc/thin/discourse.yml` file to change from `port` to `socket` to make things work with the default `nginx` configuration.  Just replace the line `port: 3000` with:
+
+```yaml
+socket: tmp/sockets/thin.sock
+```
+
 Then you'll need to edit the `thin` init script:
 
 ```bash
