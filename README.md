@@ -126,10 +126,18 @@ $ git clone https://github.com/lee-dohm/discourse.git
 $ cd discourse
 ```
 
-Create an `.rvmrc` file for Discourse:
+Create an `.rvmrc` file for Discourse and initialize it:
 
 ```bash
 $ echo "rvm 1.9.3@discourse" > .rvmrc
+$ cd ~
+$ cd ~/source/discourse
+```
+
+It will ask if you want to trust the `.rvmrc` file.  Say yes and then install the gems necessary for Discourse:
+
+```bash
+$ bundle install
 ```
 
 ## Set Discourse Application Settings
