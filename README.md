@@ -283,7 +283,6 @@ $ rake db:create db:migrate db:seed_fu
 ### Deploy Discourse App to `/var/www`
 
 ```bash
-$ vi config/initializers/secret_token.rb
 $ export RAILS_ENV=production
 $ rake assets:precompile
 $ sudo -u www-data cp -r ~/source/discourse/ /var/www
