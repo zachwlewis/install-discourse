@@ -52,7 +52,7 @@ To install system packages, you must have root privledges. Since the admin accou
 
 ```bash
 # Install required packages
-$ sudo apt-get install build-essential postgresql-9.1 postgresql-contrib-9.1 libxml2-dev libxslt-dev libpq-dev redis-server nginx postfix
+$ sudo apt-get install git-core build-essential postgresql-9.1 postgresql-contrib-9.1 libxml2-dev libxslt-dev libpq-dev redis-server nginx postfix
 ```
 
 During the installation, you will be prompted for Postfix configuration information. [Postfix](https://help.ubuntu.com/community/Postfix) is used to send mail from Discourse. Just keep the default "Internet Site."
