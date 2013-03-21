@@ -263,6 +263,16 @@ $ sudo rm /etc/nginx/sites-enabled/default
 $ sudo service nginx start
 ```
 
+### Set a secret session token
+
+```bash
+$ rake secret
+```
+
+Now copy the output of the ```rake secret``` command, open ```initializers/secret_token.rb``` in your text editor, and:
+* Remove the ```raise``` line from the production section.
+* Edit the remainder of the production section to hold the token from ```rake secret``` (paste it into the string).
+
 ### Create Production Database
 
 ```bash
