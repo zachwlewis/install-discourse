@@ -386,7 +386,7 @@ $ sudo start discourse
 
 ```bash
 # Start the Rails console
-$ sudo -u www-data rails c
+$ rails c
 ```
 
 ```ruby
