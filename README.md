@@ -430,6 +430,8 @@ $ sudo start discourse
 
 ## TODO
 
+* Fix `bundle exec` issue
+* Add [Ruby tuning recommendations](http://meta.discourse.org/t/tuning-ruby-and-rails-for-discourse/4126)
 * Convert `thin` to use Upstart for process monitoring
 * Convert `nginx` to use Upstart for process monitoring?
 * Add script to create admin Discourse account
