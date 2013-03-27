@@ -36,6 +36,8 @@ $ sudo adduser admin
 $ sudo adduser admin sudo
 ```
 
+If you need help configuring SSH access to the new `admin` account and you're using Unix or OS X, you can use [these instructions](SSH.md).
+
 ## Log in Using the Admin Account
 
 ```bash
