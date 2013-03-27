@@ -19,7 +19,7 @@ After creating your account at Amazon AWS, launch an instance *with at least 1GB
 
 You will need to allocate an Elastic IP address and associate it with your new EC2 instance after you've started it.  You should go to your domain registrar and set the DNS records to point to your new IP. I've set both the * and @ records to point to the instance's IP. This allows the root domain and all sub-domains to resolve to the instance's IP address. 
 
-[1] A minimum of 1GB of RAM is required to compile assets for production. At the time of this writing, an `m1.small` instance is the smallest instance that has 1GB of RAM.
+[1] A minimum of 1GB of RAM is required to compile assets for production. At the time of this writing, an `m1.small` instance is the smallest instance that has at least 1GB of RAM.
 
 ## Log in to Your Server
 
