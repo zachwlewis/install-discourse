@@ -434,5 +434,6 @@ $ sudo start discourse
 * Add [Ruby tuning recommendations](http://meta.discourse.org/t/tuning-ruby-and-rails-for-discourse/4126)
 * Convert `thin` to use Upstart for process monitoring
 * Convert `nginx` to use Upstart for process monitoring?
+* Convert to using Ruby 2.0
 * Add script to create admin Discourse account
 * Add scripts to automate a lot of this process
