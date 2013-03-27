@@ -1,6 +1,6 @@
 ## SSH Configuration
 
-In order to be able to log in as this new user via `ssh` instead of `ubuntu`, you'll need to do some SSH magic.  When you're logged in as `ubuntu`, do the following:
+In order to be able to log in as this new user instead of `ubuntu` via SSH, you'll need to do some SSH magic.  When you're logged in as `ubuntu`, do the following:
 
 ```bash
 $ sudo su admin
