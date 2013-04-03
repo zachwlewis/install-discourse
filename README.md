@@ -435,6 +435,16 @@ $ sudo service nginx start
 $ sudo start discourse
 ```
 
+## TROUBLESHOOTING
+### You get complaints in the logs about gems that haven't been checked out
+To solve this:
+```bash
+$ cd ~/source/discourse
+$ bundle pack --all
+$ bundle install --path vendor/cache
+```
+After that follow the update instructions in the previous section.
+
 ## TODO
 
 * Convert `thin` to use Upstart for process monitoring
