@@ -126,10 +126,11 @@ $ git clone https://github.com/lee-dohm/discourse.git
 $ cd discourse
 ```
 
-Create an `.rvmrc` file for Discourse:
+Create `.ruby-version` and `.ruby-gemset` for Discourse:
 
 ```bash
-$ echo "rvm 1.9.3@discourse" > .rvmrc
+$ echo "1.9.3" > .ruby-version
+$ echo "discourse" > .ruby-gemset
 ```
 
 Now it is necessary to leave that directory and re-enter it, so that `rvm` will notice the `.rvmrc` file that was just created.
