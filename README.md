@@ -138,8 +138,7 @@ $ echo "discourse" > .ruby-gemset
 Now it is necessary to leave that directory and re-enter it, so that `rvm` will notice the `.rvmrc` file that was just created.
 
 ```bash
-$ cd ~
-$ cd ~/source/discourse
+$ cd ~ && cd ~/source/discourse
 ```
 
 Install the gems necessary for Discourse:
