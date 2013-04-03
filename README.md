@@ -140,6 +140,8 @@ $ cd ~/source/discourse
 ```
 
 ```rvm``` will ask if you want to trust the `.ruby-version` and `.ruby-gemset` files.  Say yes and then install the gems necessary for Discourse:
+
+```bash
 $ bundle install
 ```
 
