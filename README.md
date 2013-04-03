@@ -258,6 +258,10 @@ $ sudo chmod g+w /var/www
 ```bash
 $ cd ~/source/discourse/
 $ sudo cp config/nginx.sample.conf /etc/nginx/sites-available/discourse.conf
+```
+Edit ```/etc/nginx/sites-available/discourse.conf``` and set ```server_name``` to the domain you want to use. When done, enable the site.
+```bash
+$ sudo vi /etc/nginx/sites-available/discourse.conf
 $ sudo ln -s /etc/nginx/sites-available/discourse.conf /etc/nginx/sites-enabled/discourse.conf
 $ sudo rm /etc/nginx/sites-enabled/default
 $ sudo service nginx start
