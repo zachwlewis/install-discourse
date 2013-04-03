@@ -396,7 +396,7 @@ u.admin = true
 u.save
 
 # Create a confirmation for their email address, if necessary
-token = user.email_tokens.create(email: user.email)
+token = u.email_tokens.create(email: u.email)
 EmailToken.confirm(token.token)
 ```
 
