@@ -134,12 +134,13 @@ $ echo "discourse" > .ruby-gemset
 ```
 
 Now it is necessary to leave that directory and re-enter it, so that `rvm` will notice the `.rvmrc` file that was just created.
+
 ```bash
 $ cd ~
 $ cd ~/source/discourse
 ```
 
-```rvm``` will ask if you want to trust the `.ruby-version` and `.ruby-gemset` files.  Say yes and then install the gems necessary for Discourse:
+Install the gems necessary for Discourse:
 
 ```bash
 $ bundle install
