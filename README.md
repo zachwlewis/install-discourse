@@ -275,9 +275,10 @@ $ rake secret
 
 Now copy the output of the ```rake secret``` command, open ```initializers/secret_token.rb``` in your text editor, and:
 * Erase all code in that file
-* Paste the token from ```rake secret``` in this code (replace <TOKEN>):
+* Paste the token from ```rake secret``` in this code (replace [TOKEN]):
+
 ```
-Discourse::Application.config.secret_token = "<TOKEN>"
+Discourse::Application.config.secret_token = "[TOKEN]"
 ```
 
 ### Create Production Database
