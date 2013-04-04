@@ -1,4 +1,5 @@
 # Installing Discourse on Ubuntu and EC2
+
 Original copyright 2013 by Christopher Baus <christopher@baus.net>. Licensed under GPL 2.0
 
 Updated version copyright 2013 by Lee Dohm <lee@liftedstudios.com>
@@ -263,7 +264,9 @@ $ sudo chmod g+w /var/www
 $ cd ~/source/discourse/
 $ sudo cp config/nginx.sample.conf /etc/nginx/sites-available/discourse.conf
 ```
-Edit ```/etc/nginx/sites-available/discourse.conf``` and set ```server_name``` to the domain you want to use. When done, enable the site.
+
+Edit `/etc/nginx/sites-available/discourse.conf` and set `server_name` to the domain you want to use. When done, enable the site.
+
 ```bash
 $ sudo vi /etc/nginx/sites-available/discourse.conf
 $ sudo ln -s /etc/nginx/sites-available/discourse.conf /etc/nginx/sites-enabled/discourse.conf
@@ -277,11 +280,12 @@ $ sudo service nginx start
 $ rake secret
 ```
 
-Now copy the output of the ```rake secret``` command, open ```initializers/secret_token.rb``` in your text editor, and:
-* Erase all code in that file
-* Paste the token from ```rake secret``` in this code (replace [TOKEN]):
+Now copy the output of the `rake secret` command, open `initializers/secret_token.rb` in your text editor, and:
 
-```
+* Erase all code in that file
+* Paste the token from `rake secret` in this code (replace [TOKEN]):
+
+```ruby
 Discourse::Application.config.secret_token = "[TOKEN]"
 ```
 
@@ -312,7 +316,7 @@ $ rvmsudo thin config -C /etc/thin/discourse.yml -c /var/www/discourse --servers
 $ rvm wrapper 1.9.3@discourse bootup thin
 ```
 
-After generating the configuration, you'll need to edit (using ```sudo```) the `/etc/thin/discourse.yml` file to change from `port` to `socket` to make things work with the default `nginx` configuration.  Just replace the line `port: 3000` with:
+After generating the configuration, you'll need to edit (using `sudo`) the `/etc/thin/discourse.yml` file to change from `port` to `socket` to make things work with the default `nginx` configuration.  Just replace the line `port: 3000` with:
 
 ```yaml
 socket: tmp/sockets/thin.sock
@@ -441,13 +445,17 @@ $ sudo start discourse
 ```
 
 ## TROUBLESHOOTING
+
 ### You get complaints in the logs about gems that haven't been checked out
+
 To solve this:
+
 ```bash
 $ cd ~/source/discourse
 $ bundle pack --all
 $ bundle install --path vendor/cache
 ```
+
 After that follow the update instructions in the previous section.
 
 ## TODO
