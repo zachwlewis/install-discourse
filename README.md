@@ -136,7 +136,7 @@ $ echo "1.9.3" > .ruby-version
 $ echo "discourse" > .ruby-gemset
 ```
 
-Now it is necessary to leave that directory and re-enter it, so that `rvm` will notice the `.rvmrc` file that was just created.
+Now it is necessary to leave that directory and re-enter it, so that `rvm` will notice the `.ruby-version` and `.ruby-gemset` files that were just created.
 
 ```bash
 $ cd ~ && cd ~/source/discourse
