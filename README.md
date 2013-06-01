@@ -150,7 +150,7 @@ Now you have set the Discourse application settings. The configuration files are
 
 ```
 $ cd ~/apps/discourse/config
-$ cp ./database.yml.sample ./database.yml
+$ cp ./database.yml.production-sample ./database.yml
 $ cp ./redis.yml.sample ./redis.yml
 ```
 
