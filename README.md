@@ -348,6 +348,29 @@ Change the line starting with `DAEMON=` to:
 DAEMON=/usr/local/rvm/bin/bootup_thin
 ```
 
+#### Ruby Tuning
+
+As discussed [here](http://meta.discourse.org/t/tuning-ruby-and-rails-for-discourse/4126), you'll want to add `export RAILS_ENV=production` and `export RUBY_GC_MALLOC_LIMIT=90000000` to `/usr/local/rvm/bin/bootup_thin`.
+
+It should look something like:
+
+```ruby
+#!/usr/bin/env bash
+
+if [[ -s "/usr/local/rvm/environments/ruby-2.0.0-p195@discourse" ]]
+then
+  source "/usr/local/rvm/environments/ruby-2.0.0-p195@discourse"
+  export RAILS_ENV=production
+  export RUBY_GC_MALLOC_LIMIT=90000000
+  exec thin "$@"
+else
+  echo "ERROR: Missing RVM environment file: '/usr/local/rvm/environments/ruby-2.0.0-p195@discourse'" >&2
+  exit 1
+fi
+```
+
+#### Let 'Er Rip!
+
 Start the service:
 
 ```bash
@@ -475,7 +498,6 @@ After that follow the update instructions in the previous section.
 ## TODO
 
 * Fix `bundle exec` issue
-* Add [Ruby tuning recommendations](http://meta.discourse.org/t/tuning-ruby-and-rails-for-discourse/4126)
 * Convert `thin` to use Upstart for process monitoring
 * Convert `nginx` to use Upstart for process monitoring?
 * Add script to create admin Discourse account
