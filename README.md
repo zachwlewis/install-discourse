@@ -1,9 +1,5 @@
 # Installing Discourse on Ubuntu and EC2
 
-Original copyright 2013 by Christopher Baus <christopher@baus.net>. Licensed under GPL 2.0
-
-Updated version copyright 2013 by Lee Dohm <lee@liftedstudios.com>
-
 Discourse is [web discussion forum software](http://discourse.org) by Jeff Atwood (et al.). Considering the state of forum software, and Jeff's previous success with StackOverflow, I'm confident it is going to be a success. With that said it is still in a very early state, and if you are not an expert on Linux and Ruby on Rails administration, getting a Discourse site up and running can be a daunting task. 
 
 Hopefully the document will be useful for someone who has some Linux administration experience and wants to run and administrate their own Discourse server. I am erring on the side of verbosity.
@@ -108,7 +104,7 @@ $ sudo adduser admin rvm
 
 After adding yourself to the `rvm` group, you will need to log out and log back in to register the change and activate RVM for your session.
 
-Then install Ruby v1.9.3 and create a gemset for Discourse:
+Then install Ruby v2.0.0 and create a gemset for Discourse:
 
 ```bash
 $ rvm install 2.0.0
@@ -464,6 +460,11 @@ After that follow the update instructions in the previous section.
 * Add [Ruby tuning recommendations](http://meta.discourse.org/t/tuning-ruby-and-rails-for-discourse/4126)
 * Convert `thin` to use Upstart for process monitoring
 * Convert `nginx` to use Upstart for process monitoring?
-* Convert to using Ruby 2.0
 * Add script to create admin Discourse account
 * Add scripts to automate a lot of this process
+
+## Attribution
+
+Original Copyright &copy; 2013 by Christopher Baus <christopher@baus.net>. Licensed under GPL 2.0
+
+Updated version Copyright &copy; 2013 by Lee Dohm <lee@liftedstudios.com>
