@@ -263,14 +263,17 @@ $ sudo cp config/nginx.sample.conf /etc/nginx/sites-available/discourse.conf
 
 Edit `/etc/nginx/sites-available/discourse.conf` and set the following values:
 
-1. ```
-upstream discourse {
-  server unix:/var/www/discourse/tmp/sockets/thin.0.sock;
-  server unix:/var/www/discourse/tmp/sockets/thin.1.sock;
-  server unix:/var/www/discourse/tmp/sockets/thin.2.sock;
-  server unix:/var/www/discourse/tmp/sockets/thin.3.sock;
-}
-```
+1. Set up the path to your sockets.
+
+  ```conf
+  upstream discourse {
+      server unix:/var/www/discourse/tmp/sockets/thin.0.sock;
+      server unix:/var/www/discourse/tmp/sockets/thin.1.sock;
+      server unix:/var/www/discourse/tmp/sockets/thin.2.sock;
+      server unix:/var/www/discourse/tmp/sockets/thin.3.sock;
+  }
+  ```
+
 2. `server_name` to the domain you want to use.
 3. `root` in `location` to `root /var/www/discourse/public;`
 
