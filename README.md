@@ -55,7 +55,7 @@ To install system packages, you must have root privileges. Since the admin accou
 
 ```bash
 # Update the package list
-# sudo apt-get update
+$ sudo apt-get update
 # Install required packages
 $ sudo apt-get install git-core build-essential postgresql postgresql-contrib libxml2-dev libxslt-dev libpq-dev redis-server nginx postfix
 ```
