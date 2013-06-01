@@ -111,12 +111,10 @@ After adding yourself to the `rvm` group, you will need to log out and log back 
 Then install Ruby v1.9.3 and create a gemset for Discourse:
 
 ```bash
-$ rvm install 1.9.3
-$ rvm use --default 1.9.3
+$ rvm install 2.0.0
+$ rvm use --default 2.0.0
 $ rvm gemset create discourse
 ```
-
-*Note:* Some people are using Ruby v2.0 for their installations to good effect, but I have not tested version 2 with these instructions.
 
 ## Pull and Configure the Discourse Application
 
@@ -127,14 +125,14 @@ Now we are ready install the actual Discourse application. This will pull a copy
 $ mkdir source
 $ cd source
 # Pull the latest version from github.
-$ git clone https://github.com/lee-dohm/discourse.git
+$ git clone git://github.com/discourse/discourse.git
 $ cd discourse
 ```
 
 Create `.ruby-version` and `.ruby-gemset` for Discourse:
 
 ```bash
-$ echo "1.9.3" > .ruby-version
+$ echo "2.0.0" > .ruby-version
 $ echo "discourse" > .ruby-gemset
 ```
 
