@@ -261,7 +261,20 @@ $ cd ~/apps/discourse/
 $ sudo cp config/nginx.sample.conf /etc/nginx/sites-available/discourse.conf
 ```
 
-Edit `/etc/nginx/sites-available/discourse.conf` and set `server_name` to the domain you want to use. When done, enable the site.
+Edit `/etc/nginx/sites-available/discourse.conf` and set the following values:
+
+1. ```
+upstream discourse {
+  server unix:/var/www/discourse/tmp/sockets/thin.0.sock;
+  server unix:/var/www/discourse/tmp/sockets/thin.1.sock;
+  server unix:/var/www/discourse/tmp/sockets/thin.2.sock;
+  server unix:/var/www/discourse/tmp/sockets/thin.3.sock;
+}
+```
+2. `server_name` to the domain you want to use.
+3. `root` in `location` to `root /var/www/discourse/public;`
+
+Now, enable the site.
 
 ```bash
 $ sudo vi /etc/nginx/sites-available/discourse.conf
@@ -303,13 +316,15 @@ $ sudo -u www-data mkdir /var/www/discourse/tmp/sockets
 
 ### Configure `thin`
 
-I set up the `rvm` wrapper for Ruby v1.9.3, but you can configure it for whatever version you decide to use. *Note:* `rvmsudo` executes a command as `root` but with access to the current `rvm` environment.
+I set up the `rvm` wrapper for Ruby v2.0.0, but you can configure it for whatever version you decide to use.
+
+*Note: `rvmsudo` executes a command as `root` but with access to the current `rvm` environment.*
 
 ```bash
 $ cd /var/www/discourse
 $ rvmsudo thin install
 $ rvmsudo thin config -C /etc/thin/discourse.yml -c /var/www/discourse --servers 4 -e production
-$ rvm wrapper 1.9.3@discourse bootup thin
+$ rvm wrapper 2.0.0@discourse bootup thin
 ```
 
 After generating the configuration, you'll need to edit (using `sudo`) the `/etc/thin/discourse.yml` file to change from `port` to `socket` to make things work with the default `nginx` configuration.  Just replace the line `port: 3000` with:
@@ -359,8 +374,8 @@ $ sudo rm /etc/init/discourse-web*
 Then we need to create `rvm` wrappers for `sidekiq` and `clockwork` so that the `www-data` user can execute these tools:
 
 ```bash
-$ rvm wrapper 1.9.3@discourse bootup sidekiq
-$ rvm wrapper 1.9.3@discourse bootup clockwork
+$ rvm wrapper 2.0.0@discourse bootup sidekiq
+$ rvm wrapper 2.0.0@discourse bootup clockwork
 ```
 
 Finally, all we need to do is update the `/etc/init/discourse-clockwork-1.conf` and `/etc/init/discourse-sidekiq-1.conf` files to use the `rvm` wrapper for launching the tools.
