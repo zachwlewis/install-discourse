@@ -117,9 +117,9 @@ $ rvm gemset create discourse
 Now we are ready install the actual Discourse application. This will pull a copy of the Discourse app from my own branch. The advantage of using this branch is that it has been tested with these instructions, but it may fall behind the master which is rapidly changing. 
 
 ```bash
-# I prefer to keep source code in its own subdirectory
-$ mkdir source
-$ cd source
+# I prefer to keep application code in its own subdirectory
+$ mkdir apps
+$ cd apps
 # Pull the latest version from github.
 $ git clone git://github.com/discourse/discourse.git
 $ cd discourse
@@ -135,7 +135,7 @@ $ echo "discourse" > .ruby-gemset
 Now it is necessary to leave that directory and re-enter it, so that `rvm` will notice the `.ruby-version` and `.ruby-gemset` files that were just created.
 
 ```bash
-$ cd ~ && cd ~/source/discourse
+$ cd ~ && cd ~/apps/discourse
 ```
 
 Install the gems necessary for Discourse:
@@ -149,17 +149,17 @@ $ bundle install
 Now you have set the Discourse application settings. The configuration files are in a directory called `config`.  There are sample configuration files included, so you need to copy these files and modify them with your own changes.
 
 ```
-$ cd ~/source/discourse/config
+$ cd ~/apps/discourse/config
 $ cp ./database.yml.sample ./database.yml
 $ cp ./redis.yml.sample ./redis.yml
 ```
 
 Now you need to edit the configuration files and apply your own settings. 
 
-Start by editing the database configuration file which should be now located at `~/source/discourse/config/database.yml`.
+Start by editing the database configuration file which should be now located at `~/apps/discourse/config/database.yml`.
 
 ```bash
-$ vi ~/source/discourse/config/database.yml
+$ vi ~/apps/discourse/config/database.yml
 ```
 
 Edit the file to add your Postgres username and password to each configuration in the file. Also add `localhost` to the production configuration because the production DB will also be run on the localhost in this configuration.
@@ -215,7 +215,7 @@ Now you should be ready to deploy the database and start the server.
 This will start the development environment on port 3000.
 
 ```bash
-$ cd ~/source/discourse
+$ cd ~/apps/discourse
 # Set Rails configuration
 $ export RAILS_ENV=development
 $ rake db:create
@@ -257,7 +257,7 @@ $ sudo chmod g+w /var/www
 ### Configure `nginx`
 
 ```bash
-$ cd ~/source/discourse/
+$ cd ~/apps/discourse/
 $ sudo cp config/nginx.sample.conf /etc/nginx/sites-available/discourse.conf
 ```
 
@@ -297,7 +297,7 @@ $ rake db:create db:migrate db:seed_fu
 ```bash
 $ export RAILS_ENV=production
 $ rake assets:precompile
-$ sudo -u www-data cp -r ~/source/discourse/ /var/www
+$ sudo -u www-data cp -r ~/apps/discourse/ /var/www
 $ sudo -u www-data mkdir /var/www/discourse/tmp/sockets
 ```
 
@@ -425,11 +425,11 @@ $ sudo service thin stop
 ### Pull Down Latest Code and Update Application
 
 ```bash
-$ cd ~/source/discourse
+$ cd ~/apps/discourse
 $ git pull
 $ export RAILS_ENV=production
 $ rake db:migrate db:seed_fu assets:precompile
-$ sudo -u www-data cp -r ~/source/discourse /var/www
+$ sudo -u www-data cp -r ~/apps/discourse /var/www
 ```
 
 ### Start the Servers
@@ -447,7 +447,7 @@ $ sudo start discourse
 To solve this:
 
 ```bash
-$ cd ~/source/discourse
+$ cd ~/apps/discourse
 $ bundle pack --all
 $ bundle install --path vendor/cache
 ```
