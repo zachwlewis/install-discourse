@@ -468,6 +468,13 @@ $ sudo service thin stop
 ```bash
 $ cd ~/apps/discourse
 $ git pull
+```
+
+At this point, if there are any errors thrown from `git pull`, they'll need to be fixed manually. Alternately, `git fetch` and `git merge` can be used, if that's more your thang.
+
+If you need to switch servers, you'll want to follow [these steps](copying-postgresql-database.md) to create a copy of your existing database and upload them to the new database before migrating.
+
+```bash
 $ export RAILS_ENV=production
 $ rake db:migrate db:seed_fu assets:precompile
 $ sudo -u www-data cp -r ~/apps/discourse /var/www
