@@ -476,6 +476,7 @@ If you need to switch servers, you'll want to follow [these steps](copying-postg
 
 ```bash
 $ export RAILS_ENV=production
+$ bundle install --deployment
 $ rake db:migrate db:seed_fu assets:precompile
 $ sudo -u www-data cp -r ~/apps/discourse /var/www
 ```
