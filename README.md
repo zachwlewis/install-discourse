@@ -1,5 +1,23 @@
 # Installing Discourse on Ubuntu and EC2
 
+## Contents
+1. Overview
+2. Create an EC2 instance with Ubuntu 12.04 LTS x64
+3. Login To Your Server
+4. Create A User Account
+5. Use `apt-get` to Install Core System Dependencies
+6. Edit Configuration Files
+7. Set the Host Name
+8. Configure Postgres User Account
+9. Install and Configure RVM and Ruby
+10. Pull and Configure the Discourse Application
+11. Set Discourse Application Settings
+12. Deploy the Database and Start the Server
+13. Installing the Production Environment
+14. [Upgrading Versions in Production](#upgrading-versions-in-production)
+15. Troubleshooting
+
+## Overview
 Discourse is [web discussion forum software](http://discourse.org) by Jeff Atwood (et al.). Considering the state of forum software, and Jeff's previous success with StackOverflow, I'm confident it is going to be a success. With that said it is still in a very early state, and if you are not an expert on Linux and Ruby on Rails administration, getting a Discourse site up and running can be a daunting task. 
 
 Hopefully the document will be useful for someone who has some Linux administration experience and wants to run and administrate their own Discourse server. I am erring on the side of verbosity.
@@ -489,7 +507,7 @@ $ sudo service nginx start
 $ sudo start discourse
 ```
 
-## TROUBLESHOOTING
+## Troubleshooting
 
 ### You get complaints in the logs about gems that haven't been checked out
 
